@@ -6,11 +6,12 @@ from pydantic import BaseModel
 class PoseOut(BaseModel):
     id: int
     source_title: str
+    image: Optional[str] = ""
 
     @classmethod
     def from_db_list(cls, poses_db) -> list["PoseOut"]:
         return [
-            PoseOut(id=item[0], source_title=item[1]) for item in poses_db
+            PoseOut(id=item[0], source_title=item[1], image=item[2]) for item in poses_db
         ]
 
 
