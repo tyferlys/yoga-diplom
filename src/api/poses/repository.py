@@ -25,3 +25,10 @@ class PosesRepository(DataBaseManager):
             SELECT * FROM poses WHERE id = $1
         """, id_pose)
         return row
+
+    async def get_poses_titles(self, id_pose: int):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        rows = await connection.fetch("""
+            SELECT * FROM poses_titles WHERE id_pose = $1
+        """, id_pose)
+        return rows

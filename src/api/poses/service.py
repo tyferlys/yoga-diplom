@@ -19,4 +19,5 @@ class PosesService:
 
     async def get_pose_by_id(self, id_pose: int) -> PoseFullOut:
         pose_db = await self.poses_repository.get_pose_by_id(id_pose)
-        return PoseFullOut.from_db(pose_db)
+        titles_of_pose = await self.poses_repository.get_poses_titles(id_pose)
+        return PoseFullOut.from_db(pose_db, titles_of_pose)

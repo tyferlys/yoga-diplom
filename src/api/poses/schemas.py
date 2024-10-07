@@ -25,11 +25,18 @@ class PoseFullOut(BaseModel):
     source_title: str
     image: Optional[str] = ""
     description: Optional[str] = ""
+    other_titles: Optional[list[str]] = []
 
 
     @classmethod
-    def from_db(cls, pose_db) -> "PoseFullOut":
-        return PoseFullOut(id=pose_db[0], source_title=pose_db[1], image=pose_db[2], description=pose_db[3])
+    def from_db(cls, pose_db, titles_of_pose) -> "PoseFullOut":
+        return PoseFullOut(
+            id=pose_db[0],
+            source_title=pose_db[1],
+            image=pose_db[2],
+            description=pose_db[3],
+            other_titles=[item[2] for item in titles_of_pose]
+        )
 
     @classmethod
     def from_db_list(cls, poses_db) -> list["PoseFullOut"]:
