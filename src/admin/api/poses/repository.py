@@ -37,8 +37,8 @@ class PosesRepository(DataBaseManager):
     async def update_pose_by_id(self, id_pose: int, pose_data: PoseIn):
         connection: Connection = await asyncpg.connect(**self.db_config)
         await connection.execute("""
-            UPDATE poses SET source_title = $1, description = $2 WHERE id = $3
-        """, pose_data.source_title, pose_data.description, id_pose)
+            UPDATE poses SET source_title = $1, description = $2, short_description = $3 WHERE id = $4
+        """, pose_data.source_title, pose_data.description, pose_data.short_description, id_pose)
 
     async def get_other_title_by_id(self, id_other_title: int):
         connection: Connection = await asyncpg.connect(**self.db_config)
