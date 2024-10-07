@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseModel
 
 
@@ -21,8 +23,8 @@ class PoseOutPagination(BaseModel):
 class PoseFullOut(BaseModel):
     id: int
     source_title: str
-    image: str
-    description: str
+    image: Optional[str] = ""
+    description: Optional[str] = ""
 
 
     @classmethod
