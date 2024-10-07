@@ -25,7 +25,7 @@ class S3Manager:
         binary_data = base64.b64decode(file.split(',')[1])
         cls.s3.put_object(Body=binary_data, Bucket=cls.bucket_name, Key=f"{file_name}.{type_file}")
 
-        return f"https://s3.timeweb.cloud/b04ff838-9623a212-74e8-4e03-8174-0fb956108280/{file_name}.{type_file}"
+        return f"https://s3.timeweb.cloud/f2c55d23-27cefacd-9fc8-442f-9c9d-422afd419dad/{file_name}.{type_file}"
 
 
 if __name__ == '__main__':
