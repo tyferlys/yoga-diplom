@@ -21,12 +21,18 @@ class PoseOutPagination(BaseModel):
     poses: list[PoseOut]
 
 
+class OtherTitleOut(BaseModel):
+    id: int
+    id_pose: int
+    title: str
+
+
 class PoseFullOut(BaseModel):
     id: int
     source_title: str
     image: Optional[str] = ""
     description: Optional[str] = ""
-    other_titles: Optional[list[str]] = []
+    other_titles: list[OtherTitleOut] = []
 
 
     @classmethod
@@ -36,7 +42,7 @@ class PoseFullOut(BaseModel):
             source_title=pose_db[1],
             image=pose_db[2],
             description=pose_db[3],
-            other_titles=[item[2] for item in titles_of_pose]
+            other_titles=[OtherTitleOut(id=item[0], id_pose=item[1], title=item[2]) for item in titles_of_pose]
         )
 
     @classmethod

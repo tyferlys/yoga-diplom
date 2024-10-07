@@ -1,5 +1,6 @@
 from src.admin.api.poses.repository import PosesRepository
-from src.admin.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination, PoseIn
+from src.admin.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination, PoseIn, OtherTitleIn, \
+    OtherTitleInUpdate, OtherTitleOut
 
 
 class PosesService:
@@ -27,3 +28,15 @@ class PosesService:
         pose_db = await self.poses_repository.get_pose_by_id(id_pose)
         titles_of_pose = await self.poses_repository.get_poses_titles(id_pose)
         return PoseFullOut.from_db(pose_db, titles_of_pose)
+
+    async def create_other_title(self, id_pose, other_title_data: OtherTitleIn) -> PoseFullOut:
+        await self.poses_repository.create_other_title(id_pose, other_title_data)
+        return await self.get_pose_by_id(id_pose)
+
+    async def update_other_title(self, id_pose, id_other_title: int, other_title_data: OtherTitleInUpdate) -> PoseFullOut:
+        await self.poses_repository.update_other_title(id_other_title, other_title_data)
+        return await self.get_pose_by_id(id_pose)
+
+    async def delete_other_titles(self, id_pose: int, id_other_title: int) -> PoseFullOut:
+        await self.poses_repository.delete_other_title(id_other_title)
+        return await self.get_pose_by_id(id_pose)

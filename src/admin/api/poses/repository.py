@@ -1,9 +1,8 @@
 import asyncpg
 from asyncpg import Connection
 
-from src.admin.utils.database_manager import DataBaseManager
-
-from src.admin.api.poses.schemas import PoseIn
+from src.website.utils.database_manager import DataBaseManager
+from src.admin.api.poses.schemas import PoseIn, OtherTitleIn, OtherTitleInUpdate
 
 
 class PosesRepository(DataBaseManager):
@@ -17,7 +16,7 @@ class PosesRepository(DataBaseManager):
     async def get_poses(self, count: int, page: int):
         connection: Connection = await asyncpg.connect(**self.db_config)
         rows = await connection.fetch("""
-                    SELECT * FROM poses OFFSET $1 LIMIT $2
+                    SELECT * FROM poses ORDER BY id OFFSET $1 LIMIT $2
                 """, page * count, count)
         return rows
 
@@ -31,7 +30,7 @@ class PosesRepository(DataBaseManager):
     async def get_poses_titles(self, id_pose: int):
         connection: Connection = await asyncpg.connect(**self.db_config)
         rows = await connection.fetch("""
-            SELECT * FROM poses_titles WHERE id_pose = $1
+            SELECT * FROM poses_titles WHERE id_pose = $1 ORDER BY id
         """, id_pose)
         return rows
 
@@ -40,3 +39,28 @@ class PosesRepository(DataBaseManager):
         await connection.execute("""
             UPDATE poses SET source_title = $1, description = $2 WHERE id = $3
         """, pose_data.source_title, pose_data.description, id_pose)
+
+    async def get_other_title_by_id(self, id_other_title: int):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        row = await connection.fetchrow("""
+            SELECT * FROM poses_titles WHERE id = $1
+        """, id_other_title)
+        return row
+
+    async def create_other_title(self, id_pose: int, other_title_data: OtherTitleIn):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        await connection.execute("""
+            INSERT INTO poses_titles(id_pose, title) VALUES($1, $2)
+        """, id_pose, other_title_data.title)
+
+    async def update_other_title(self, id_other_title: int, other_title_data: OtherTitleInUpdate):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        await connection.execute("""
+            UPDATE poses_titles SET title = $1 WHERE id = $2
+        """, other_title_data.title, id_other_title)
+
+    async def delete_other_title(self, id_other_title: int):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        await connection.execute("""
+            DELETE FROM poses_titles WHERE id = $1
+        """, id_other_title)

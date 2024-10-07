@@ -15,7 +15,7 @@ class PosesRepository(DataBaseManager):
     async def get_poses(self, count: int, page: int):
         connection: Connection = await asyncpg.connect(**self.db_config)
         rows = await connection.fetch("""
-                    SELECT * FROM poses OFFSET $1 LIMIT $2
+                    SELECT * FROM poses ORDER BY id OFFSET $1 LIMIT $2
                 """, page * count, count)
         return rows
 

@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
 from src.admin.api.poses.router import router as poses_router
 
+
 app = FastAPI()
 
 app.add_middleware(
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(poses_router, prefix="/poses", tags=["Позы"])
+
 
 if __name__ == "__main__":
     uvicorn.run(app, host="127.0.0.1", port=8001)
