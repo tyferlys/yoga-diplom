@@ -1,0 +1,9 @@
+pydantic
+openpyxl
+pillow
+ultralytics
+fastapi
+asyncpg
+uvicorn
+loguru
+python-dotenv
