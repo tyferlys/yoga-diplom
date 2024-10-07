@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from src.admin.api.poses.schemas import PoseFullOut, PoseOutPagination, PoseIn, OtherTitleIn, OtherTitleInUpdate, \
-    OtherTitleOut
+    OtherTitleOut, ImageIn
 from src.admin.api.poses.service import PosesService
 
 router = APIRouter()
@@ -22,6 +22,12 @@ async def get_pose_by_id(id_pose: int, poses_service: PosesService = Depends(Pos
 @router.post("/{id_pose}")
 async def update_pose_by_id(id_pose: int, pose_data: PoseIn, poses_service: PosesService = Depends(PosesService)) -> PoseFullOut:
     pose = await poses_service.update_pose_by_id(id_pose, pose_data)
+    return pose
+
+
+@router.post("/{id_pose}/image")
+async def update_image(id_pose: int, image: ImageIn, poses_service: PosesService = Depends(PosesService)):
+    pose = await poses_service.update_image(id_pose, image)
     return pose
 
 

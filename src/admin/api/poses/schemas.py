@@ -3,6 +3,10 @@ from typing import Optional
 from pydantic import BaseModel
 
 
+class ImageIn(BaseModel):
+    image: str
+
+
 class PoseIn(BaseModel):
     source_title: str
     description: str

@@ -1,6 +1,7 @@
 from src.admin.api.poses.repository import PosesRepository
 from src.admin.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination, PoseIn, OtherTitleIn, \
-    OtherTitleInUpdate, OtherTitleOut
+    OtherTitleInUpdate, OtherTitleOut, ImageIn
+from src.utils.s3_manager import S3Manager
 
 
 class PosesService:
@@ -39,4 +40,9 @@ class PosesService:
 
     async def delete_other_titles(self, id_pose: int, id_other_title: int) -> PoseFullOut:
         await self.poses_repository.delete_other_title(id_other_title)
+        return await self.get_pose_by_id(id_pose)
+
+    async def update_image(self, id_pose: int, image: ImageIn) -> PoseFullOut:
+        image_path = await S3Manager.save_object(image.image, "png")
+        await self.poses_repository.update_image(id_pose, image_path)
         return await self.get_pose_by_id(id_pose)

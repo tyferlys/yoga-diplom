@@ -17,7 +17,7 @@ class NetworkService:
         self.poses_repository = PosesRepository()
 
     def base64_to_image(self, image: str):
-        image_data = base64.b64decode(image)
+        image_data = base64.b64decode(image.split(',')[1])
         image = Image.open(BytesIO(image_data))
 
         now = datetime.now()

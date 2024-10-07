@@ -64,3 +64,9 @@ class PosesRepository(DataBaseManager):
         await connection.execute("""
             DELETE FROM poses_titles WHERE id = $1
         """, id_other_title)
+
+    async def update_image(self, id_pose: int, image_path: str):
+        connection: Connection = await asyncpg.connect(**self.db_config)
+        await connection.execute("""
+                UPDATE poses SET image = $1 WHERE id = $2
+        """, image_path, id_pose)
