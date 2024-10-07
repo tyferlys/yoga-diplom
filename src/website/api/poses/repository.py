@@ -1,7 +1,7 @@
 import asyncpg
 from asyncpg import Connection
 
-from src.utils.database_manager import DataBaseManager
+from src.website.utils.database_manager import DataBaseManager
 
 
 class PosesRepository(DataBaseManager):

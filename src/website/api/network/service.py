@@ -4,11 +4,11 @@ from io import BytesIO
 
 from PIL import Image
 
-from src.api.network.repository import NetworkRepository
-from src.api.network.schemas import PredictIn
-from src.api.poses.repository import PosesRepository
-from src.api.poses.schemas import PoseFullOut
-from src.network.network import predict_model
+from src.website.api.network.repository import NetworkRepository
+from src.website.api.network.schemas import PredictIn
+from src.website.api.poses.repository import PosesRepository
+from src.website.api.poses.schemas import PoseFullOut
+from src.website.network.network import predict_model
 
 
 class NetworkService:

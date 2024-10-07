@@ -1,11 +1,8 @@
-import sys
-
 import uvicorn
 from fastapi import FastAPI
-from loguru import logger
 from starlette.middleware.cors import CORSMiddleware
-from src.api.poses.router import router as poses_router
-from src.api.network.router import router as network_router
+from src.website.api.poses.router import router as poses_router
+from src.website.api import router as network_router
 
 
 app = FastAPI()

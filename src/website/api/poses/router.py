@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from src.api.poses.schemas import PoseFullOut, PoseOutPagination
-from src.api.poses.service import PosesService
+from src.website.api.poses.schemas import PoseFullOut, PoseOutPagination
+from src.website.api.poses.service import PosesService
 
 router = APIRouter()
 

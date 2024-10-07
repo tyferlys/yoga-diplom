@@ -1,11 +1,10 @@
 import asyncio
 import os.path
 
-import openpyxl
 from openpyxl.drawing.image import Image
 from openpyxl.workbook import Workbook
 
-from src.utils.excel_creator.schemas import DataClass
+from src.website.utils.excel_creator.schemas import DataClass
 
 current_directory = os.path.abspath(__file__)
 directory_dataset = os.path.join(current_directory, os.pardir, os.pardir, os.pardir, os.pardir, "resources", "yoga-82-dataset", "test")

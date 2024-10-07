@@ -1,5 +1,5 @@
-from src.api.poses.repository import PosesRepository
-from src.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination
+from src.website.api.poses.repository import PosesRepository
+from src.website.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination
 
 
 class PosesService:

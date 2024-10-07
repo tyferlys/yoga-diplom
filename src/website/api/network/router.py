@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 
-from src.api.network.schemas import PredictIn
-from src.api.network.service import NetworkService
-from src.api.poses.schemas import PoseFullOut
+from src.website.api.network.schemas import PredictIn
+from src.website.api.network.service import NetworkService
+from src.website.api.poses.schemas import PoseFullOut
 
 router = APIRouter()
 
