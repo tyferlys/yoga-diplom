@@ -12,7 +12,7 @@ async def get_poses(count: int = 5, page: int = 0, poses_service: PosesService =
     return pose
 
 
-@router.get("/{id}")
+@router.get("/{id_pose}")
 async def get_pose_by_id(id_pose: int, poses_service: PosesService = Depends(PosesService)) -> PoseFullOut:
     pose = await poses_service.get_pose_by_id(id_pose)
     return pose
