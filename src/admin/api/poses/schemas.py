@@ -3,8 +3,30 @@ from typing import Optional
 from pydantic import BaseModel
 
 
+class OtherTitleIn(BaseModel):
+    title: str
+
+
+class OtherTitleInUpdate(BaseModel):
+    title: str
+
+
+class OtherTitleOut(BaseModel):
+    id: int
+    id_pose: int
+    title: str
+
+
 class ImageIn(BaseModel):
     image: str
+
+
+class PoseInFull(BaseModel):
+    source_title: str
+    image: Optional[str] = ""
+    description: Optional[str] = ""
+    other_titles: list[OtherTitleOut | OtherTitleIn]
+    short_description: Optional[str] = ""
 
 
 class PoseIn(BaseModel):
@@ -30,20 +52,6 @@ class PoseOutPagination(BaseModel):
     all_pages: int
     current_page: int
     poses: list[PoseOut]
-
-
-class OtherTitleIn(BaseModel):
-    title: str
-
-
-class OtherTitleInUpdate(BaseModel):
-    title: str
-
-
-class OtherTitleOut(BaseModel):
-    id: int
-    id_pose: int
-    title: str
 
 
 class PoseFullOut(BaseModel):

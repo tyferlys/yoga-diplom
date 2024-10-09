@@ -1,6 +1,6 @@
 from src.admin.api.poses.repository import PosesRepository
 from src.admin.api.poses.schemas import PoseFullOut, PoseOut, PoseOutPagination, PoseIn, OtherTitleIn, \
-    OtherTitleInUpdate, OtherTitleOut, ImageIn
+    OtherTitleInUpdate, OtherTitleOut, ImageIn, PoseInFull
 from src.utils.s3_manager import S3Manager
 
 
@@ -45,4 +45,29 @@ class PosesService:
     async def update_image(self, id_pose: int, image: ImageIn) -> PoseFullOut:
         image_path = await S3Manager.save_object(image.image, "png")
         await self.poses_repository.update_image(id_pose, image_path)
+        return await self.get_pose_by_id(id_pose)
+
+    async def update_full_pose(self, id_pose: int, pose_data: PoseInFull):
+        await self.update_pose_by_id(id_pose, PoseIn(
+            source_title=pose_data.source_title,
+            description=pose_data.description,
+            short_description=pose_data.short_description
+        ))
+
+        array_of_new_titles = []
+        for other_title in pose_data.other_titles:
+            if not hasattr(other_title, "id"):
+                await self.create_other_title(id_pose, OtherTitleIn(title=other_title.title))
+            else:
+                array_of_new_titles.append(other_title.id)
+                await self.update_other_title(id_pose, other_title.id, OtherTitleInUpdate(title=other_title.title))
+
+        pose = await self.get_pose_by_id(id_pose)
+        for other_title_in_db in pose.other_titles:
+            if other_title_in_db.id not in array_of_new_titles:
+                await self.delete_other_titles(id_pose, other_title_in_db.id)
+
+        if pose_data.image is not None:
+            await self.update_image(id_pose, ImageIn(image=pose_data.image))
+
         return await self.get_pose_by_id(id_pose)
