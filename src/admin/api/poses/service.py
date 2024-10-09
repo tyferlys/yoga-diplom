@@ -56,16 +56,18 @@ class PosesService:
 
         array_of_new_titles = []
         for other_title in pose_data.other_titles:
-            if not hasattr(other_title, "id"):
-                await self.create_other_title(id_pose, OtherTitleIn(title=other_title.title))
-            else:
+            if hasattr(other_title, "id"):
                 array_of_new_titles.append(other_title.id)
-                await self.update_other_title(id_pose, other_title.id, OtherTitleInUpdate(title=other_title.title))
-
         pose = await self.get_pose_by_id(id_pose)
         for other_title_in_db in pose.other_titles:
             if other_title_in_db.id not in array_of_new_titles:
                 await self.delete_other_titles(id_pose, other_title_in_db.id)
+
+        for other_title in pose_data.other_titles:
+            if not hasattr(other_title, "id"):
+                await self.create_other_title(id_pose, OtherTitleIn(title=other_title.title))
+            else:
+                await self.update_other_title(id_pose, other_title.id, OtherTitleInUpdate(title=other_title.title))
 
         if pose_data.image is not None:
             await self.update_image(id_pose, ImageIn(image=pose_data.image))
